@@ -1,6 +1,6 @@
 #pragma once
 
-#include 
+#include <SFML/Graphics/RectangleShape.hpp>
 
 namespace sf
 {
@@ -16,6 +16,8 @@ namespace jam
   public:
 
     PostProcessor(Instance& ins);
+
+    void update(const float delta);
 
     void render();
 

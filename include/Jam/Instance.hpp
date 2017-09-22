@@ -3,9 +3,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <memory>
 #include <Jam/ResourceManager.hpp>
 #include <Jam/ConfigManager.hpp>
+#include <Jam/PostProcessor.hpp>
 #include <set>
 
 namespace jam
@@ -38,9 +40,14 @@ namespace jam
     std::unique_ptr<Scene> currentScene;
     ResourceManager resourceManager;
     std::map<sf::String, int> highscores;
+    PostProcessor postProcessor;
 
   public:
 
     sf::Clock m_clock;
+
+  private:
+
+    sf::RectangleShape m_quad;
   };
 }
