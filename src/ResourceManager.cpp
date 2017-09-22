@@ -53,4 +53,24 @@ namespace jam {
         }
         return itr->second;
     }
+
+    sf::Shader& ResourceManager::GetShader(const std::string& vertex, const std::string& pixel)
+    {
+      std::string assetPathV = "assets/Shaders/" + vertex;
+      std::string assetPathF = "assets/Shaders/" + vertex;
+      std::string combined = assetPathV + assetPathF;
+
+      auto itr = shaderFiles.find(combined);
+      if (itr == shaderFiles.end()) {
+        sf::Shader& shader = shaderFiles[combined];
+
+        if (!shader.loadFromFile(assetPathV, assetPathF)) {
+          assert(false);
+        }
+        return shader;
+      }
+
+      return itr->second;
+    }
+
 }

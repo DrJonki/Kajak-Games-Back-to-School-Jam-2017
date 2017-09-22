@@ -1,5 +1,6 @@
 #include <Jam/Instance.hpp>
 #include <Jam/Scene.hpp>
+#include <Jam/PostProcessor.hpp>
 #include <SFML/Window/Event.hpp>
 #include <rapidjson/document.h>
 #include <iostream>
@@ -36,14 +37,12 @@ namespace jam
       currentScene(),
       resourceManager(),
       highscores(),
+      postProcessor(*this),
       m_clock(),
       m_quad()
   {
     window.setVerticalSyncEnabled(true);
     window.setMouseCursorVisible(false);
-
-    framebuffer.create(window.getSize().x, window.getSize().y);
-    m_quad.setTexture(&framebuffer.getTexture());
   }
 
   Instance::~Instance()
@@ -53,27 +52,15 @@ namespace jam
 
   void Instance::operator ()()
   {
+    const auto delta = m_clock.restart().asSeconds();
+
     if (currentScene)
       currentScene->update(
-        m_clock.restart().asSeconds() *
-        config.float_("SPEED_MULT") // Global game speed multiplier
+        delta * config.float_("SPEED_MULT") // Global game speed multiplier
       );
 
-    framebuffer.clear();
-    window.clear();
-
-    if (currentScene) {
-      framebuffer.setActive(true);
-      currentScene->draw(framebuffer);
-      framebuffer.display();
-
-      m_quad.setSize(sf::Vector2f(window.getSize()));
-
-      window.setActive(true);
-      window.draw(m_quad);
-    }
-
-    window.display();
+    postProcessor.update(delta),
+    postProcessor.render();
 
     // Handle events
     sf::Event event;
