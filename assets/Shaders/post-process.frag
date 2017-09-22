@@ -1,8 +1,9 @@
-uniform sampler2D texture;
-uniform float tick;
+// uniform sampler2D texture;
+// uniform float tick;
 
 void main()
 {
+/*
 	int waveCountX = 4;
 	int waveCountY = 3;
 
@@ -20,10 +21,11 @@ void main()
 	float yDifferential = gl_TexCoord[0].y + waveHeightY * Math.sin(waveCount * gl_TexCoord[0].y / screenHeight);
 
 	vec4 pixel = texture2D(texture, gl_TexCoord[0].xy + vec2(xDifferential,yDifferential));
+	*/
 
     // lookup the pixel in the texture
-    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy + vec2(0,gl_TexCoord[0].x));
+    // vec4 pixel = texture2D(texture, gl_TexCoord[0].xy + vec2(0,gl_TexCoord[0].x));
 
     // multiply it by the color
-    gl_FragColor = gl_Color * pixel;
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); //gl_Color * pixel;
 }
