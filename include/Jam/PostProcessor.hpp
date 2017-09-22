@@ -23,7 +23,8 @@ namespace jam
 
   private:
 
-    Instance& m_instance;
+	float m_timer;
+	Instance& m_instance;
     sf::Shader& m_shader;
     sf::RectangleShape m_quad;
   };

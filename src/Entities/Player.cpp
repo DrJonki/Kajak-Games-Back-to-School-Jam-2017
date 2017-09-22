@@ -17,6 +17,10 @@ namespace jam
       move(-1000.f * delta, 0.f);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
       move(1000.f * delta, 0.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		move(0.f, -1000.f * delta);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		move(0.f, 1000.f * delta);
   }
 
   void Player::draw(sf::RenderTarget& target)

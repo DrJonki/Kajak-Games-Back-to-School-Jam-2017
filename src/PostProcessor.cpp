@@ -6,9 +6,10 @@
 namespace jam
 {
 
-  PostProcessor::PostProcessor(Instance& ins)
-    : m_instance(ins),
-      m_shader(ins.resourceManager.GetShader("post-process.vert", "post-process.frag"))
+	PostProcessor::PostProcessor(Instance& ins)
+		: m_instance(ins),
+		m_shader(ins.resourceManager.GetShader("post-process.vert", "post-process.frag")),
+		m_timer(0.0f)
   {
     ins.framebuffer.create(ins.window.getSize().x, ins.window.getSize().y);
     m_quad.setTexture(&ins.framebuffer.getTexture());
@@ -18,6 +19,7 @@ namespace jam
   void PostProcessor::update(const float delta)
   {
     m_shader.setUniform("texture", sf::Shader::CurrentTexture);
+	m_shader.setUniform("tick", (m_timer += delta));
   }
 
   void PostProcessor::render()
