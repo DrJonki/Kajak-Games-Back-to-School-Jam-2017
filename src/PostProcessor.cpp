@@ -11,13 +11,13 @@ namespace jam
       m_shader(ins.resourceManager.GetShader("post-process.vert", "post-process.frag"))
   {
     ins.framebuffer.create(ins.window.getSize().x, ins.window.getSize().y);
-    m_quad.setTexture(&ins.framebuffer.getTexture());
+    // m_quad.setTexture(&ins.framebuffer.getTexture());
   }
 
 
   void PostProcessor::update(const float delta)
   {
-
+	  m_shader.setUniform("texture", m_instance.framebuffer.getTexture());
   }
 
   void PostProcessor::render()

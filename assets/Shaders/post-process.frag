@@ -1,6 +1,6 @@
 #version 130
 
-// uniform sampler2D texture;
+uniform sampler2D texture;
 // uniform float tick;
 
 void main()
@@ -26,8 +26,8 @@ void main()
 	*/
 
     // lookup the pixel in the texture
-    // vec4 pixel = texture2D(texture, gl_TexCoord[0].xy + vec2(0,gl_TexCoord[0].x));
+    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
 
     // multiply it by the color
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); //gl_Color * pixel;
+    gl_FragColor = pixel;
 }
