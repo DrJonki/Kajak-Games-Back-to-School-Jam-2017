@@ -23,6 +23,10 @@ set(SRC
   ${INCDIR}/Randomizer.hpp
   ${INCDIR}/Randomizer.inl
   ${SRCDIR}/Randomizer.cpp
+  
+  # Entities
+  ${INCDIR}/Entities/Particle.hpp
+  ${SRCDIR}/Entities/Particle.cpp
 
   ${SRCDIR}/main.cpp
 )
@@ -53,10 +57,10 @@ if (MSVC)
     optimized ${BINARY_DIR}/lib/${CMAKE_CFG_INTDIR}/sfml-window-s.lib
   )
   #ExternalProject_Get_Property(CURL BINARY_DIR)
-  target_link_libraries(Jam
+  #target_link_libraries(Jam
     # Curl libs
-    debug ${BINARY_DIR}/lib/${CMAKE_CFG_INTDIR}/libcurl-d.lib
-  )
+    #debug ${BINARY_DIR}/lib/${CMAKE_CFG_INTDIR}/libcurl-d.lib
+  #)
   #target_link_libraries(Jam
     # Curl libs
     #optimized ${BINARY_DIR}/lib/${CMAKE_CFG_INTDIR}/libcurl.lib
