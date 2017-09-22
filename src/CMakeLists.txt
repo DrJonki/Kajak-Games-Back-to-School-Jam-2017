@@ -20,6 +20,8 @@ set(SRC
   ${SRCDIR}/Layer.cpp
   ${INCDIR}/Scene.hpp
   ${SRCDIR}/Scene.cpp
+  ${INCDIR}/PostProcessor.hpp
+  ${SRCDIR}/PostProcessor.cpp
   ${INCDIR}/Randomizer.hpp
   ${INCDIR}/Randomizer.inl
   ${SRCDIR}/Randomizer.cpp
@@ -27,6 +29,12 @@ set(SRC
   # Entities
   ${INCDIR}/Entities/Particle.hpp
   ${SRCDIR}/Entities/Particle.cpp
+  ${INCDIR}/Entities/Player.hpp
+  ${SRCDIR}/Entities/Player.cpp
+  
+  # Scenes
+  ${INCDIR}/Scenes/GameScene.hpp
+  ${SRCDIR}/Scenes/GameScene.cpp
 
   ${SRCDIR}/main.cpp
 )

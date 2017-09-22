@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/System/Clock.hpp>
 #include <memory>
 #include <Jam/ResourceManager.hpp>
@@ -33,6 +34,7 @@ namespace jam
     // Globals
     ConfigManager config;
     sf::RenderWindow window;
+    sf::RenderTexture framebuffer;
     std::unique_ptr<Scene> currentScene;
     ResourceManager resourceManager;
     std::map<sf::String, int> highscores;

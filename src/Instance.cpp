@@ -32,14 +32,18 @@ namespace jam
   Instance::Instance()
     : config(),
       window(getVideomode(config), "Jam", getStyle()),
+      framebuffer(),
       currentScene(),
       resourceManager(),
       highscores(),
-      m_clock()
+      m_clock(),
+      m_quad()
   {
     window.setVerticalSyncEnabled(true);
     window.setMouseCursorVisible(false);
 
+    framebuffer.create(window.getSize().x, window.getSize().y);
+    m_quad.setTexture(&framebuffer.getTexture());
   }
 
   Instance::~Instance()
@@ -55,10 +59,19 @@ namespace jam
         config.float_("SPEED_MULT") // Global game speed multiplier
       );
 
+    framebuffer.clear();
     window.clear();
 
-    if (currentScene)
-      currentScene->draw(window);
+    if (currentScene) {
+      framebuffer.setActive(true);
+      currentScene->draw(framebuffer);
+      framebuffer.display();
+
+      m_quad.setSize(sf::Vector2f(window.getSize()));
+
+      window.setActive(true);
+      window.draw(m_quad);
+    }
 
     window.display();
 
