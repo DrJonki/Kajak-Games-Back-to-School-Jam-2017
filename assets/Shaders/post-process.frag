@@ -26,7 +26,7 @@ void main()
 	*/
 
     // lookup the pixel in the texture
-    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy + vec2(0.0, gl_TexCoord[0].x));
 
     // multiply it by the color
     gl_FragColor = pixel;
