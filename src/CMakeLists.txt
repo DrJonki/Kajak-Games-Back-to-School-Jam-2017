@@ -24,24 +24,6 @@ set(SRC
   ${INCDIR}/Randomizer.inl
   ${SRCDIR}/Randomizer.cpp
 
-  # Entities
-  ${INCDIR}/Entities/BackgroundSprite.hpp
-  ${SRCDIR}/Entities/BackgroundSprite.cpp
-  ${INCDIR}/Entities/Player.hpp
-  ${SRCDIR}/Entities/Player.cpp
-  ${INCDIR}/Entities/Bottle.hpp
-  ${SRCDIR}/Entities/Bottle.cpp
-  ${INCDIR}/Entities/Particle.hpp
-  ${SRCDIR}/Entities/Particle.cpp
-  ${INCDIR}/Entities/Prompter.hpp
-  ${SRCDIR}/Entities/Prompter.cpp
-  ${INCDIR}/Entities/Text.hpp
-  ${SRCDIR}/Entities/Text.cpp
-
-  # Scenes
-  ${INCDIR}/Scenes/GameScene.hpp
-  ${SRCDIR}/Scenes/GameScene.cpp
-
   ${SRCDIR}/main.cpp
 )
 
