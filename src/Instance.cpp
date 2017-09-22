@@ -26,7 +26,7 @@ namespace jam
 {
   Instance::Instance()
     : config(),
-      window(getVideomode(config), "Jam", getStyle(), sf::ContextSettings(0u, 0u, 0u, 2u, 1u)),
+      window(getVideomode(config), "Jam", getStyle(), sf::ContextSettings(0u, 0u, 0u, 3u, 0u)),
       framebuffer(),
       currentScene(),
       resourceManager(),

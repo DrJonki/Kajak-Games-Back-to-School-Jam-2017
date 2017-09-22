@@ -37,7 +37,7 @@ namespace jam
       m_quad.setSize(sf::Vector2f(window.getSize()));
 
       window.setActive(true);
-      window.draw(m_quad);
+      window.draw(m_quad, sf::RenderStates(&m_shader));
     }
 
     window.display();
