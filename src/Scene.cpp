@@ -34,6 +34,10 @@ namespace jam
     }
   }
 
+
+  void Scene::postDraw(sf::RenderTarget& target)
+  {}
+
   Instance& Scene::getInstance()
   {
     return m_instance;

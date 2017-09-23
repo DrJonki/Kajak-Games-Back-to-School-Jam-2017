@@ -1,4 +1,5 @@
 #include <Jam/TrippingState.hpp>
+#include <cmath>
 
 namespace jam
 {
@@ -18,5 +19,4 @@ namespace jam
   {
     return m_intensity;
   }
-
 }

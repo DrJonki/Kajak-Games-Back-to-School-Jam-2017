@@ -24,10 +24,11 @@ namespace jam
       m_backgroundLayer(addLayer(5)),
       m_gameLayer(addLayer(20)),
       m_shroomLayer(addLayer(10)),
-      m_uiLayer(addLayer(100)),
       m_player(m_gameLayer.insert<Player>("Player", ins)),
       m_camera(),
-      m_timer(0)
+      m_timer(0),
+      m_scoreText("Score: 0", ins.resourceManager.GetFont("RockSalt-Regular.ttf")),
+      m_gameoverTimer(ins.config.float_("LOSE_TIMER_ROOF"))
   {
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(sf::Vector2f(camSize.x * 0.5f, camSize.y * 2.5f), camSize);
@@ -35,8 +36,6 @@ namespace jam
     m_backgroundLayer.setSharedView(&m_camera);
     m_gameLayer.setSharedView(&m_camera);
     m_shroomLayer.setSharedView(&m_camera);
-
-    m_uiLayer.setView(ins.window.getDefaultView());
 
     for (std::size_t i = 0u; camSize.y * 5.f > (i + 1) * ns_stripHeight; ++i) {
       auto& bk = m_backgroundLayer.insert<BackgroundSprite>(std::to_string(i));
@@ -51,6 +50,16 @@ namespace jam
     m_player.setOrigin(sf::Vector2f(m_player.getLocalBounds().width, m_player.getLocalBounds().height) * 0.5f);
     m_player.setPosition(m_camera.getCenter());
 
+    // UI
+    m_scoreText.setOutlineThickness(2.f);
+    m_scoreText.setPosition(10.f, 10.f);
+
+    m_timeRect.setFillColor(sf::Color::Red);
+    m_timeRect.setOutlineThickness(1.f);
+    m_timeRect.setSize(sf::Vector2f(camSize.x * 0.4f, 10.f));
+    m_timeRect.setOrigin(m_timeRect.getLocalBounds().width, 0.f);
+    m_timeRect.setPosition(camSize.x - 10.f, 10.f);
+
     // Post effects
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag").setActive(true);
     ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag").setActive(true);
@@ -58,7 +67,16 @@ namespace jam
 
   void GameScene::update(const float delta)
   {
+    static const float loseTimerRoof = getInstance().config.float_("LOSE_TIMER_ROOF");
+
     m_timer += delta;
+
+    if ((m_gameoverTimer -= delta) < 0.f) {
+      getInstance().window.close();
+      return;
+    }
+
+    m_timeRect.setScale(std::max(0.f, m_gameoverTimer / loseTimerRoof), 1.f);
 
     // Spawn mushrooms & detect collisions
     {
@@ -77,14 +95,21 @@ namespace jam
       for (auto& i : m_shroomLayer.getAll()) {
         auto& shroom = *static_cast<Mushroom*>(i);
 
+        const bool playerCollided = m_player.checkCollision(shroom);
         if (
-          m_player.checkCollision(shroom) ||
+          playerCollided ||
           shroom.getPosition().y > m_camera.getCenter().y + m_camera.getSize().y * 0.5f
         ) {
-          static const float incr = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
-
-          getInstance().tripping.incrementIntensity(incr);
           i->erase();
+
+          if (playerCollided) {
+            static const float incr = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
+
+            getInstance().tripping.incrementIntensity(incr);
+            m_scoreText.setString("Score: " + std::to_string(static_cast<int>(getInstance().tripping.getIntensity() / incr)));
+
+            m_gameoverTimer = loseTimerRoof;
+          }
         }
       }
     }
@@ -125,4 +150,11 @@ namespace jam
     Scene::draw(target);
   }
 
+  void GameScene::postDraw(sf::RenderTarget& target)
+  {
+    target.setView(target.getDefaultView());
+
+    target.draw(m_scoreText);
+    target.draw(m_timeRect);
+  }
 }
