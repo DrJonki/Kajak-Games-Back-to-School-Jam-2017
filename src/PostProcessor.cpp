@@ -49,6 +49,10 @@ namespace jam
 
       unsigned int current = 0;
       for (auto& i : m_effects) {
+        if (!i->isActive()) {
+          continue;
+        }
+
         auto& writeFbo = framebuffer[(current + 1) % 2];
         auto& readFbo = framebuffer[current++ % 2];
 

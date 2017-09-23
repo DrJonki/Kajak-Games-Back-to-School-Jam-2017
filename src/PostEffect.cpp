@@ -5,7 +5,8 @@ namespace jam
 {
   PostEffect::PostEffect(Instance& ins, const std::string& name, const std::string& vertex, const std::string& fragment)
     : m_shader(ins.resourceManager.GetShader(vertex, fragment)),
-      m_name(name)
+      m_name(name),
+      m_active(true)
   {
 
   }
@@ -31,6 +32,16 @@ namespace jam
   const std::string& PostEffect::getName() const
   {
     return m_name;
+  }
+
+  void PostEffect::setActive(const bool active)
+  {
+    m_active = active;
+  }
+
+  bool PostEffect::isActive() const
+  {
+    return m_active;
   }
 
 }

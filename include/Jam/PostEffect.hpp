@@ -23,6 +23,10 @@ namespace jam
 
     const std::string& getName() const;
 
+    void setActive(const bool active);
+
+    bool isActive() const;
+
   private:
 
     sf::Shader& m_shader;
