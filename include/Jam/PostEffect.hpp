@@ -27,5 +27,6 @@ namespace jam
 
     sf::Shader& m_shader;
     const std::string m_name;
+    bool m_active;
   };
 }

@@ -19,6 +19,11 @@ namespace jam
   PostProcessor::~PostProcessor()
   {}
 
+  void PostProcessor::clearEffects()
+  {
+    m_effects.clear();
+  }
+
   void PostProcessor::update(const float delta)
   {
     for (auto& i : m_effects) {

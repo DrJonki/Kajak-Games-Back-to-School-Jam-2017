@@ -25,6 +25,8 @@ namespace jam
     template<typename T, typename ... Args>
     T& createEffect(const std::string& name, Args&&... args);
 
+    void clearEffects();
+
     void update(const float delta);
 
     void render();

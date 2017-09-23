@@ -12,12 +12,16 @@ namespace jam
     : Scene(ins),
       m_gameLayer(addLayer(10)),
       m_player(m_gameLayer.insert<Player>("Player", ins)),
-      m_camera()
+      m_camera(),
+      m_background()
   {
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(camSize * 0.5f, camSize);
 
     m_gameLayer.setSharedView(&m_camera);
+
+    m_background.setSize(camSize * 2.f);
+    m_background.setTexture(&ins.resourceManager.GetTexture("skyline.jpg"));
 
     m_player.setOrigin(sf::Vector2f(m_player.getLocalBounds().width, m_player.getLocalBounds().height) * 0.5f);
 
@@ -35,4 +39,12 @@ namespace jam
 
     m_camera.setCenter(newCamPos.x, newCamPos.y);
   }
+
+  void GameScene::draw(sf::RenderTarget& target)
+  {
+    target.draw(m_background);
+
+    Scene::draw(target);
+  }
+
 }
