@@ -14,5 +14,8 @@ MUSHROOM_SPAWN_FREQ=0.01
 # Intensity increment / mushroom
 MUSHROOM_INTENSITY_INCREMENT=0.2
 
+# Maximum value for game over timer
+LOSE_TIMER_ROOF=8a.0
+
 # Player
 PLAYER_MOVEMENT_SPEED=600.0

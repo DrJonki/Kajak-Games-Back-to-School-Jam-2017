@@ -29,6 +29,8 @@ namespace jam
 
     virtual void draw(sf::RenderTarget& target);
 
+    virtual void postDraw(sf::RenderTarget& target);
+
     Instance& getInstance();
 
     void setView(const sf::View& view);

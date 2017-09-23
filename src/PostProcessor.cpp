@@ -74,8 +74,6 @@ namespace jam
 
       m_quad.setTexture(&framebuffer[!zero].getTexture());
       window.draw(m_quad);
-
-      window.display();
     }
 
   }
