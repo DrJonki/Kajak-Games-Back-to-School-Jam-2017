@@ -42,6 +42,7 @@ set(SRC
   # Effects
   ${INCDIR}/PostEffects/Drunkness.hpp
   ${SRCDIR}/PostEffects/Drunkness.cpp
+  ${INCDIR}/PostEffects/BlackHole.hpp
 
   ${SRCDIR}/main.cpp
 )
