@@ -36,7 +36,7 @@ namespace jam
     // Globals
     ConfigManager config;
     sf::RenderWindow window;
-    sf::RenderTexture framebuffer;
+    sf::RenderTexture framebuffer[2];
     std::unique_ptr<Scene> currentScene;
     ResourceManager resourceManager;
     std::map<sf::String, int> highscores;

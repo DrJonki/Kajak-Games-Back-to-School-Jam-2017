@@ -21,10 +21,13 @@ set(SRC
   ${INCDIR}/Scene.hpp
   ${SRCDIR}/Scene.cpp
   ${INCDIR}/PostProcessor.hpp
+  ${INCDIR}/PostProcessor.inl
   ${SRCDIR}/PostProcessor.cpp
   ${INCDIR}/Randomizer.hpp
   ${INCDIR}/Randomizer.inl
   ${SRCDIR}/Randomizer.cpp
+  ${INCDIR}/PostEffect.hpp
+  ${SRCDIR}/PostEffect.cpp
   
   # Entities
   ${INCDIR}/Entities/Particle.hpp
@@ -35,6 +38,10 @@ set(SRC
   # Scenes
   ${INCDIR}/Scenes/GameScene.hpp
   ${SRCDIR}/Scenes/GameScene.cpp
+  
+  # Effects
+  ${INCDIR}/PostEffects/Drunkness.hpp
+  ${SRCDIR}/PostEffects/Drunkness.cpp
 
   ${SRCDIR}/main.cpp
 )
@@ -99,7 +106,9 @@ endif()
 
 add_custom_target(jam_assets ALL DEPENDS asset_copy)
 
-add_custom_command(OUTPUT asset_copy POST_BUILD  
+add_custom_command(OUTPUT asset_copy POST_BUILD
+  DEPENDS always_rebuild
+  
   COMMAND ${CMAKE_COMMAND} -E copy
           ${SOURCE_DIR}/extlibs/bin/x86/openal32.dll
           ${CMAKE_CURRENT_BINARY_DIR}/openal32.dll
@@ -116,3 +125,5 @@ add_custom_command(OUTPUT asset_copy POST_BUILD
           ${CMAKE_SOURCE_DIR}/assets
           ${CMAKE_CURRENT_BINARY_DIR}/assets
 )
+
+add_custom_command(OUTPUT always_rebuild COMMAND cmake -E echo)

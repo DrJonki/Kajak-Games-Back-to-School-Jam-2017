@@ -21,7 +21,7 @@ namespace jam {
     m_curSpeed(startSpeed),
     m_curTime(0.f),
     m_lifeTime(lifetime),
-	  m_torgue(startTorgue),
+    m_torgue(startTorgue),
     m_maxAlpha(maxAlpha),
     m_minAlpha(minAlpha),
     m_random()

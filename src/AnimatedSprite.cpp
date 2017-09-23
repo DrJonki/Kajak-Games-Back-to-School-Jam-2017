@@ -16,7 +16,7 @@ namespace jam
     m_frameHeight = height;
     m_startFrame = startFrame;
     m_startSpeed = frameSpeed;
-    m_maxFrames = frames;
+    m_maxFrames = frames - 1;
     resetAnimation();
   }
 

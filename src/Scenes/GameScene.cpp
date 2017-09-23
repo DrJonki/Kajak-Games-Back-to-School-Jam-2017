@@ -2,6 +2,7 @@
 #include <Jam/Layer.hpp>
 #include <Jam/Instance.hpp>
 #include <Jam/Entities/Player.hpp>
+#include <Jam/PostEffects/Drunkness.hpp>
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
@@ -10,12 +11,18 @@ namespace jam
   GameScene::GameScene(Instance& ins)
     : Scene(ins),
       m_gameLayer(addLayer(10)),
-      m_player(m_gameLayer.insert<Player>("Player")),
-      m_camera(ins.framebuffer.getDefaultView())
+      m_player(m_gameLayer.insert<Player>("Player", ins)),
+      m_camera()
   {
+    const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
+    m_camera = sf::View(camSize * 0.5f, camSize);
+
     m_gameLayer.setSharedView(&m_camera);
 
-    m_player.setOrigin(m_player.getSize() * 0.5f);
+    m_player.setOrigin(sf::Vector2f(m_player.getLocalBounds().width, m_player.getLocalBounds().height) * 0.5f);
+
+    // Post effects
+    ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag");
   }
 
   void GameScene::update(const float delta)

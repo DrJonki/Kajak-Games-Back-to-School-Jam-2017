@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <memory>
+#include <vector>
 
 namespace sf
 {
@@ -9,6 +11,7 @@ namespace sf
 
 namespace jam
 {
+  class PostEffect;
   class Instance;
 
   class PostProcessor
@@ -17,15 +20,21 @@ namespace jam
 
     PostProcessor(Instance& ins);
 
+    ~PostProcessor();
+
+    template<typename T, typename ... Args>
+    T& createEffect(const std::string& name, Args&&... args);
+
     void update(const float delta);
 
     void render();
 
   private:
 
-	float m_timer;
-	Instance& m_instance;
-    sf::Shader& m_shader;
+    Instance& m_instance;
     sf::RectangleShape m_quad;
+    std::vector<std::unique_ptr<PostEffect>> m_effects;
   };
+
+  #include <Jam/PostProcessor.inl>
 }
