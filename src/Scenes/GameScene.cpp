@@ -48,8 +48,8 @@ namespace jam
     m_player.setPosition(m_camera.getCenter());
 
     // Post effects
+    ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag").setActive(true);
     ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag").setActive(true);
-    //ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag").setActive(false);
   }
 
   void GameScene::update(const float delta)

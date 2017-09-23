@@ -8,7 +8,7 @@ namespace jam
       m_name(name),
       m_active(true)
   {
-
+    getShader().setUniform("texture", sf::Shader::CurrentTexture);
   }
 
   PostEffect::~PostEffect()

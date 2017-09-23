@@ -3,10 +3,10 @@
 #include <Jam/Scene.hpp>
 #include <Jam/PostEffect.hpp>
 #include <SFML/Graphics/Shader.hpp>
+#include <cassert>
 
 namespace jam
 {
-
   PostProcessor::PostProcessor(Instance& ins)
     : m_instance(ins),
       m_effects()
@@ -14,8 +14,10 @@ namespace jam
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
 
     for (std::size_t i = 0; i < 2; ++i) {
-      ins.framebuffer[i].setView(sf::View(camSize * 0.5f, camSize));
-      ins.framebuffer[i].create(ins.window.getSize().x, ins.window.getSize().y);
+      auto& fbo = ins.framebuffer[i];
+
+      fbo.setView(sf::View(camSize * 0.5f, camSize));
+      assert(fbo.create(ins.window.getSize().x, ins.window.getSize().y));
     }
   }
 
@@ -41,40 +43,41 @@ namespace jam
     auto& window = m_instance.window;
     auto& currentScene = m_instance.currentScene;
 
+    window.setView(window.getDefaultView());
     m_quad.setSize(window.getView().getSize());
 
-    window.clear();
-
     if (currentScene) {
-      framebuffer[0].setActive(true);
       framebuffer[0].clear();
       currentScene->draw(framebuffer[0]);
       framebuffer[0].display();
 
-      unsigned int current = 0;
+      bool zero = true;
       for (auto& i : m_effects) {
         if (!i->isActive()) {
           continue;
         }
 
-        auto& writeFbo = framebuffer[(current + 1) % 2];
-        auto& readFbo = framebuffer[current++ % 2];
+        zero = !zero;
 
-        writeFbo.clear();
-        writeFbo.setActive();
+        auto& writeFbo = framebuffer[!zero];
+        auto& readFbo = framebuffer[zero];
+
         m_quad.setTexture(&readFbo.getTexture());
-        i->getShader().setUniform("texture", sf::Shader::CurrentTexture);
+
+        writeFbo.setView(window.getDefaultView());
+        writeFbo.clear();
         writeFbo.draw(m_quad, sf::RenderStates(&i->getShader()));
         writeFbo.display();
       }
 
-      m_quad.setTexture(&framebuffer[current % 2].getTexture());
+      window.clear();
 
-      window.setActive(true);
+      m_quad.setTexture(&framebuffer[!zero].getTexture());
       window.draw(m_quad);
+
+      window.display();
     }
 
-    window.display();
   }
 
 }
