@@ -33,6 +33,8 @@ namespace jam
 
     Instance& getInstance();
 
+    const Instance& getInstance() const;
+
     void setView(const sf::View& view);
 
     const sf::View& getView() const;

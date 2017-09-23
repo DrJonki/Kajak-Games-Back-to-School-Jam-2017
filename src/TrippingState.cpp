@@ -1,6 +1,5 @@
 #include <Jam/TrippingState.hpp>
 #include <glm/glm.hpp>
-#include <iostream>
 
 namespace jam
 {
@@ -21,7 +20,6 @@ namespace jam
   void TrippingState::update(const float dt)
   {
     m_intensity = glm::mix(m_intensity, m_targetIntensity, dt * 1.2f);
-    std::cout << m_intensity << std::endl;
   }
 
   void TrippingState::incrementIntensity(const float incr)
@@ -33,4 +31,10 @@ namespace jam
   {
     return m_intensity;
   }
+
+  float TrippingState::getIntensityTarget() const
+  {
+    return m_targetIntensity;
+  }
+
 }

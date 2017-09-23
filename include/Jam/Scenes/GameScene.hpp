@@ -24,7 +24,13 @@ namespace jam
 
     void postDraw(sf::RenderTarget& target) override;
 
+    void textEvent(const uint32_t code) override;
+
   private:
+
+    bool isGameOver() const;
+
+    bool isTripMode() const;
 
     std::vector<BackgroundSprite*> m_background;
     Layer& m_backgroundLayer;
@@ -34,9 +40,11 @@ namespace jam
     sf::View m_camera;
     float m_timer;
     float m_gameoverTimer;
+    float m_mushRoomForceTimer;
 
     // UI
     sf::Text m_scoreText;
+    sf::Text m_gameoverHint;
     sf::RectangleShape m_timeRect;
   };
 }
