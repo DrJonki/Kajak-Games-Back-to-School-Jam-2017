@@ -11,8 +11,12 @@ namespace jam
     : m_instance(ins),
       m_effects()
   {
-    ins.framebuffer[0].create(ins.window.getSize().x, ins.window.getSize().y);
-    ins.framebuffer[1].create(ins.window.getSize().x, ins.window.getSize().y);
+    const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
+
+    for (std::size_t i = 0; i < 2; ++i) {
+      ins.framebuffer[0].setView(sf::View(camSize * 0.5f, camSize));
+      ins.framebuffer[0].create(ins.window.getSize().x, ins.window.getSize().y);
+    }
   }
 
 

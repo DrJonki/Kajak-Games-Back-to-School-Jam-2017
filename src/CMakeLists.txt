@@ -28,12 +28,18 @@ set(SRC
   ${SRCDIR}/Randomizer.cpp
   ${INCDIR}/PostEffect.hpp
   ${SRCDIR}/PostEffect.cpp
+  ${INCDIR}/TrippingState.hpp
+  ${SRCDIR}/TrippingState.cpp
   
   # Entities
+  ${INCDIR}/Entities/BackgroundSprite.hpp
+  ${SRCDIR}/Entities/BackgroundSprite.cpp
   ${INCDIR}/Entities/Particle.hpp
   ${SRCDIR}/Entities/Particle.cpp
   ${INCDIR}/Entities/Player.hpp
   ${SRCDIR}/Entities/Player.cpp
+  ${INCDIR}/Entities/Mushroom.hpp
+  ${SRCDIR}/Entities/Mushroom.cpp
   
   # Scenes
   ${INCDIR}/Scenes/GameScene.hpp

@@ -6,6 +6,7 @@
 namespace jam
 {
   class Instance;
+  class Mushroom;
 
   class Player : public Entity, public AnimatedSprite
   {
@@ -16,5 +17,11 @@ namespace jam
     void update(const float delta) override;
 
     void draw(sf::RenderTarget& target) override;
+
+    bool checkCollision(const Mushroom& shroom) const;
+
+  private:
+
+    Instance& m_instance;
   };
 }
