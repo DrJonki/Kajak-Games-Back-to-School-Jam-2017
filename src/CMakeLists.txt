@@ -28,12 +28,18 @@ set(SRC
   ${SRCDIR}/Randomizer.cpp
   ${INCDIR}/PostEffect.hpp
   ${SRCDIR}/PostEffect.cpp
+  ${INCDIR}/TrippingState.hpp
+  ${SRCDIR}/TrippingState.cpp
   
   # Entities
+  ${INCDIR}/Entities/BackgroundSprite.hpp
+  ${SRCDIR}/Entities/BackgroundSprite.cpp
   ${INCDIR}/Entities/Particle.hpp
   ${SRCDIR}/Entities/Particle.cpp
   ${INCDIR}/Entities/Player.hpp
   ${SRCDIR}/Entities/Player.cpp
+  ${INCDIR}/Entities/Mushroom.hpp
+  ${SRCDIR}/Entities/Mushroom.cpp
   
   # Scenes
   ${INCDIR}/Scenes/GameScene.hpp
@@ -107,7 +113,7 @@ endif()
 
 add_custom_target(jam_assets ALL DEPENDS asset_copy)
 
-add_custom_command(OUTPUT asset_copy POST_BUILD
+add_custom_command(OUTPUT asset_copy PRE_BUILD
   DEPENDS always_rebuild
   
   COMMAND ${CMAKE_COMMAND} -E copy
@@ -128,3 +134,4 @@ add_custom_command(OUTPUT asset_copy POST_BUILD
 )
 
 add_custom_command(OUTPUT always_rebuild COMMAND cmake -E echo)
+add_dependencies(Jam jam_assets)

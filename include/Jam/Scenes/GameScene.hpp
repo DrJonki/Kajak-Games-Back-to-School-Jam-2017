@@ -2,11 +2,12 @@
 
 #include <Jam/Scene.hpp>
 #include <SFML/Graphics/View.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
+#include <vector>
 
 namespace jam
 {
   class Player;
+  class BackgroundSprite;
 
   class GameScene : public Scene
   {
@@ -20,9 +21,12 @@ namespace jam
 
   private:
 
-    sf::RectangleShape m_background;
+    std::vector<BackgroundSprite*> m_background;
+    Layer& m_backgroundLayer;
     Layer& m_gameLayer;
+    Layer& m_shroomLayer;
     Player& m_player;
     sf::View m_camera;
+    float m_timer;
   };
 }

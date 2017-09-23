@@ -36,7 +36,13 @@ namespace jam
       m_quad()
   {
     window.setVerticalSyncEnabled(true);
-    window.setMouseCursorVisible(false);
+    window.setMouseCursorVisible(
+    #ifdef _DEBUG
+      true
+    #else
+      false
+    #endif
+    );
   }
 
   Instance::~Instance()
