@@ -59,6 +59,7 @@ namespace jam
         delta * config.float_("SPEED_MULT") // Global game speed multiplier
       );
 
+    tripping.update(delta);
     postProcessor.update(delta),
     postProcessor.render();
 

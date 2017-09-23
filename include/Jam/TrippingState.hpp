@@ -8,6 +8,10 @@ namespace jam
 
     TrippingState();
 
+    void reset();
+
+    void update(const float dt);
+
     void incrementIntensity(const float incr);
 
     float getIntensity() const;
@@ -15,5 +19,6 @@ namespace jam
   private:
 
     float m_intensity;
+    float m_targetIntensity;
   };
 }
