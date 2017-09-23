@@ -6,6 +6,7 @@
 #include <Jam/Entities/BackgroundSprite.hpp>
 #include <Jam/PostEffects/Drunkness.hpp>
 #include <Jam/PostEffects/BlackHole.hpp>
+#include <Jam/PostEffects/HippieColors.hpp>
 #include <Jam/Randomizer.hpp>
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
@@ -48,8 +49,9 @@ namespace jam
     m_player.setPosition(m_camera.getCenter());
 
     // Post effects
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag").setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag").setActive(false);
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag").setActive(false);
+    ins.postProcessor.createEffect<Drunkness>("HippieColor", "post-process.vert", "hippie-colors.frag").setActive(true);
   }
 
   void GameScene::update(const float delta)
