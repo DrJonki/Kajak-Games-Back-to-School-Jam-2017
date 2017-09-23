@@ -107,7 +107,7 @@ endif()
 
 add_custom_target(jam_assets ALL DEPENDS asset_copy)
 
-add_custom_command(OUTPUT asset_copy POST_BUILD
+add_custom_command(OUTPUT asset_copy PRE_BUILD
   DEPENDS always_rebuild
   
   COMMAND ${CMAKE_COMMAND} -E copy
@@ -128,3 +128,4 @@ add_custom_command(OUTPUT asset_copy POST_BUILD
 )
 
 add_custom_command(OUTPUT always_rebuild COMMAND cmake -E echo)
+add_dependencies(Jam jam_assets)
