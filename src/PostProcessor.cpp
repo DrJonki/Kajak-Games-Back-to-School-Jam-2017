@@ -49,7 +49,7 @@ namespace jam
 
       unsigned int current = 0;
       for (auto& i : m_effects) {
-        auto& writeFbo = framebuffer[current + 1 % 2];
+        auto& writeFbo = framebuffer[(current + 1) % 2];
         auto& readFbo = framebuffer[current++ % 2];
 
         writeFbo.clear();

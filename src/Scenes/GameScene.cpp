@@ -3,6 +3,7 @@
 #include <Jam/Instance.hpp>
 #include <Jam/Entities/Player.hpp>
 #include <Jam/PostEffects/Drunkness.hpp>
+#include <Jam/PostEffects/BlackHole.hpp>
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
@@ -27,6 +28,7 @@ namespace jam
 
     // Post effects
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag");
+    // ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag");
   }
 
   void GameScene::update(const float delta)
