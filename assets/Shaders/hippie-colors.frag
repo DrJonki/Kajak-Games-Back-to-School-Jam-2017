@@ -2,10 +2,11 @@
 
 uniform sampler2D texture;
 uniform float tick;
+uniform float modifiableValue;
 
 void main()
 {
-	float hueScale = 0.5 * cos(tick/10+3.14159)+0.5;
+	float hueScale = 0.1 + modifiableValue * cos(tick/10+3.14159);
 	float travelSpeed = 0.2;
 	float stroboSpeed = 0.2;
 	float stroboVaryTime = 1;

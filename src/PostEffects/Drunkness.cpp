@@ -11,7 +11,6 @@ namespace jam
   {
     auto& s = getShader();
 
-    s.setUniform("texture", sf::Shader::CurrentTexture);
     s.setUniform("tick", (m_timer += delta));
     s.setUniform("drunkness.positionalWaveLength", sf::Vector2f(0.03f, 0.22f));
     s.setUniform("drunkness.positionalWaveHeight", sf::Vector2f(0.02f, 0.02f));

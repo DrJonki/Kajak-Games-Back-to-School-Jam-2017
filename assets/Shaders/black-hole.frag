@@ -7,10 +7,10 @@ uniform float direction;
 
 void main()
 {
-	float holeSpeed = 0.05;
-	vec2 holePosition = vec2(0.5*sin(holeSpeed*19*tick), 0.5*cos(holeSpeed*13*tick));
-	float mass = 1.0;
-	float horizonDist = 0.02;
+	float holeSpeed = 0.1;
+	vec2 holePosition = vec2(0.5,0.5) + vec2(0.5*sin(holeSpeed*19*tick), 0.5*cos(holeSpeed*13*tick));
+	float mass = 0.001 + 0.002 * sin(tick);
+	float horizonDist = 0.04 + 0.01 * sin(tick);
 	vec2 driver = holePosition - gl_TexCoord[0].xy;
 	float originalLength = length(driver);
 	driver = normalize(driver);
