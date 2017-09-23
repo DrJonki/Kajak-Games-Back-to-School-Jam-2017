@@ -4,11 +4,11 @@
 
 namespace jam
 {
-  class HippieColor : public PostEffect
+  class HippieColors : public PostEffect
   {
   public:
 
-    HippieColor(Instance& ins, const std::string& name, const std::string& v, const std::string& f);
+    HippieColors(Instance& ins, const std::string& name, const std::string& v, const std::string& f);
 
     void update(const float delta) override;
 
