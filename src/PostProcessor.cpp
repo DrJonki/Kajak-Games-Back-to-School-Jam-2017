@@ -59,6 +59,7 @@ namespace jam
         writeFbo.clear();
         writeFbo.setActive();
         m_quad.setTexture(&readFbo.getTexture());
+        i->getShader().setUniform("texture", sf::Shader::CurrentTexture);
         writeFbo.draw(m_quad, sf::RenderStates(&i->getShader()));
         writeFbo.display();
       }

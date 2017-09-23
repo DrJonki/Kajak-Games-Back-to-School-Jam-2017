@@ -27,8 +27,8 @@ namespace jam
     m_player.setOrigin(sf::Vector2f(m_player.getLocalBounds().width, m_player.getLocalBounds().height) * 0.5f);
 
     // Post effects
-    ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag");
-    // ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag");
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "post-process.vert", "black-hole.frag").setActive(true);
+    ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag").setActive(false);
   }
 
   void GameScene::update(const float delta)

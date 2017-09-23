@@ -12,7 +12,17 @@ namespace jam
       m_timer(0.f){}
 
     void update(const float delta) override {
-    
+      sf::Shader& s = getShader();
+      sf::Vector2f vectors[5] = {
+        sf::Vector2f(0.5, 0.5), 
+        sf::Vector2f(0.0, 0.0),
+        sf::Vector2f(0.0, 0.0), 
+        sf::Vector2f(0.0, 0.0), 
+        sf::Vector2f(0.0, 0.0)
+      };
+      s.setUniform("tick", (m_timer += delta));
+      s.setUniform("direction", (-1.f));
+      //s.setUniformArray("holepos", vectors, sizeof(vectors) / sizeof(vectors[0]));
     }
 
   private:
