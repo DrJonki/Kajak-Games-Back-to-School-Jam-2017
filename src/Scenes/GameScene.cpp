@@ -53,9 +53,9 @@ namespace jam
     m_player.setPosition(m_camera.getCenter());
 
     // Post effects
-    ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag").setActive(true);
-    ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"basic.vert", "post-process.frag").setActive(true);
+    ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(false);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag").setActive(false);
+    ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"basic.vert", "drunkness.frag").setActive(true);
   }
 
   void GameScene::update(const float delta)

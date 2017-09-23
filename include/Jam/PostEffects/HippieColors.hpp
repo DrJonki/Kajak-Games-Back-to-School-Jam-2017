@@ -20,6 +20,7 @@ namespace jam
       auto& s = getShader();
 
       s.setUniform("tick", (m_timer += delta));
+      s.setUniform("modifiableValue", getInstance().tripping.getIntensity());
     }
 
   private:
