@@ -14,10 +14,14 @@ namespace jam
 
     Mushroom(Instance& ins);
 
+
+
   private:
 
     void update(const float dt) override;
+    void draw(sf::RenderTarget& target) override;
 
     Instance& m_instance;
+
   };
 }

@@ -4,13 +4,26 @@ namespace jam
 {
 
   Entity::Entity()
-    : m_active(true)
+    : m_active(true),
+      m_deleted(false)
   {
 
   }
 
   Entity::~Entity()
   {}
+
+
+  void Entity::erase()
+  {
+    m_deleted = true;
+  }
+
+
+  bool Entity::isErased() const
+  {
+    return m_deleted;
+  }
 
   void Entity::baseUpdate(const float dt)
   {

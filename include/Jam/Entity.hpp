@@ -17,6 +17,10 @@ namespace jam
 
     virtual ~Entity() = 0;
 
+    void erase();
+
+    bool isErased() const;
+
     void setActive(const bool active);
 
     bool isActive() const;
@@ -32,5 +36,6 @@ namespace jam
     virtual void draw(sf::RenderTarget& target);
 
     bool m_active;
+    bool m_deleted;
   };
 }
