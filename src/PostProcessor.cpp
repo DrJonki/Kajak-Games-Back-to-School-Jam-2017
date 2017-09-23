@@ -19,7 +19,13 @@ namespace jam
   void PostProcessor::update(const float delta)
   {
     m_shader.setUniform("texture", sf::Shader::CurrentTexture);
-	m_shader.setUniform("tick", (m_timer += delta));
+	  m_shader.setUniform("tick", (m_timer += delta));
+    m_shader.setUniform("drunknesParams.positionalWaveLength", sf::Vector2f(0.03, 0.22));
+    m_shader.setUniform("drunknesParams.positionalWaveHeight", sf::Vector2f(0.02, 0.02));
+    m_shader.setUniform("drunknesParams.standingWaveHeight", sf::Vector2f(0.02, 0.06));
+    m_shader.setUniform("drunknesParams.standingFreq", sf::Vector2f(3.5, 1));
+    m_shader.setUniform("drunknesParams.positionalCompressionRates", sf::Vector2f(0.05, 0.03));
+
   }
 
   void PostProcessor::render()
