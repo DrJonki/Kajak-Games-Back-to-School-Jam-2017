@@ -50,8 +50,5 @@ namespace jam
   }
 
   void Scene::textEvent(const uint32_t code)
-  {
-
-  }
-
+  {}
 }
