@@ -97,7 +97,9 @@ if (MSVC)
   set_target_properties(Jam PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
 endif()
 
-add_custom_command(TARGET Jam POST_BUILD
+add_custom_target(jam_assets ALL DEPENDS asset_copy)
+
+add_custom_command(OUTPUT asset_copy POST_BUILD  
   COMMAND ${CMAKE_COMMAND} -E copy
           ${SOURCE_DIR}/extlibs/bin/x86/openal32.dll
           ${CMAKE_CURRENT_BINARY_DIR}/openal32.dll
