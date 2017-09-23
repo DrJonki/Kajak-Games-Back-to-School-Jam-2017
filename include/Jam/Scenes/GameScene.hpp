@@ -25,6 +25,7 @@ namespace jam
     Layer& m_backgroundLayer;
     Layer& m_gameLayer;
     Layer& m_shroomLayer;
+    Layer& m_uiLayer;
     Player& m_player;
     sf::View m_camera;
     float m_timer;

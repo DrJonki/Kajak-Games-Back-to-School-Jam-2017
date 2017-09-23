@@ -8,6 +8,7 @@
 #include <Jam/ResourceManager.hpp>
 #include <Jam/ConfigManager.hpp>
 #include <Jam/PostProcessor.hpp>
+#include <Jam/TrippingState.hpp>
 #include <set>
 
 namespace jam
@@ -27,10 +28,6 @@ namespace jam
 
     void operator ()();
 
-    bool sendRequest(const std::string& url, std::string& res);
-
-    bool sendPutRequest(const std::string& url, const std::string& body);
-
   public:
 
     // Globals
@@ -39,8 +36,8 @@ namespace jam
     sf::RenderTexture framebuffer[2];
     std::unique_ptr<Scene> currentScene;
     ResourceManager resourceManager;
-    std::map<sf::String, int> highscores;
     PostProcessor postProcessor;
+    TrippingState tripping;
 
   public:
 

@@ -9,6 +9,7 @@
 #include <Jam/Randomizer.hpp>
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
+#include <iostream>
 
 namespace
 {
@@ -21,8 +22,9 @@ namespace jam
     : Scene(ins),
       m_background(),
       m_backgroundLayer(addLayer(5)),
-      m_gameLayer(addLayer(10)),
-      m_shroomLayer(addLayer(20)),
+      m_gameLayer(addLayer(20)),
+      m_shroomLayer(addLayer(10)),
+      m_uiLayer(addLayer(100)),
       m_player(m_gameLayer.insert<Player>("Player", ins)),
       m_camera(),
       m_timer(0)
@@ -33,6 +35,8 @@ namespace jam
     m_backgroundLayer.setSharedView(&m_camera);
     m_gameLayer.setSharedView(&m_camera);
     m_shroomLayer.setSharedView(&m_camera);
+
+    m_uiLayer.setView(ins.window.getDefaultView());
 
     for (std::size_t i = 0u; camSize.y * 5.f > (i + 1) * ns_stripHeight; ++i) {
       auto& bk = m_backgroundLayer.insert<BackgroundSprite>(std::to_string(i));
@@ -56,9 +60,33 @@ namespace jam
   {
     m_timer += delta;
 
-    // Spawn mushrooms
+    // Spawn mushrooms & detect collisions
     {
-      // static const float 
+      static const float freq = getInstance().config.float_("MUSHROOM_SPAWN_FREQ");
+      static Randomizer rand;
+
+      if (rand.range(0.0f, 1.0f) <= freq) {
+        auto& shroom = m_shroomLayer.insert<Mushroom>("", getInstance());
+
+        shroom.setPosition(
+          rand.range(m_camera.getCenter().x - m_camera.getSize().x * 0.45f, m_camera.getCenter().x + m_camera.getSize().x * 0.45f),
+          m_camera.getCenter().y - m_camera.getSize().y * 0.5f - shroom.getGlobalBounds().height
+        );
+      }
+
+      for (auto& i : m_shroomLayer.getAll()) {
+        auto& shroom = *static_cast<Mushroom*>(i);
+
+        if (
+          m_player.checkCollision(shroom) ||
+          shroom.getPosition().y > m_camera.getCenter().y + m_camera.getSize().y * 0.5f
+        ) {
+          static const float incr = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
+
+          getInstance().tripping.incrementIntensity(incr);
+          i->erase();
+        }
+      }
     }
 
     // Base update

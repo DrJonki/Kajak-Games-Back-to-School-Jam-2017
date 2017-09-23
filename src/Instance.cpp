@@ -30,10 +30,10 @@ namespace jam
       framebuffer(),
       currentScene(),
       resourceManager(),
-      highscores(),
       postProcessor(*this),
       m_clock(),
-      m_quad()
+      m_quad(),
+      tripping()
   {
     window.setVerticalSyncEnabled(true);
     window.setMouseCursorVisible(

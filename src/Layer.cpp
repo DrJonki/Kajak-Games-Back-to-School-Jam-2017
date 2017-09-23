@@ -17,8 +17,14 @@ namespace jam
 
   void Layer::update(const float dt)
   {
-    for (auto& i : m_entities) {
-      i.second->baseUpdate(dt);
+    for (auto itr = m_entities.begin(); itr != m_entities.end();) {
+      if (itr->second->isErased()) {
+        itr = m_entities.erase(itr);
+        continue;
+      }
+
+      itr->second->baseUpdate(dt);
+      ++itr;
     }
   }
 
