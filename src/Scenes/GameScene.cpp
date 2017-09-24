@@ -41,7 +41,10 @@ namespace jam
       m_shroomSound(ins.resourceManager.GetSoundBuffer("shroom.ogg"))
   {
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
-    m_camera = sf::View(sf::Vector2f(camSize.x * 0.5f, camSize.y * 2.5f), camSize);
+    m_camera = sf::View(
+      sf::Vector2f(camSize.x * 0.5f, camSize.y * 2.5f),
+      camSize * (ins.config.boolean("DEBUG_CAMERA") * 10.f + 1.f) * ins.config.float_("FBO_UPSCALE")
+     );
 
     m_backgroundLayer.setSharedView(&m_camera);
     m_gameLayer.setSharedView(&m_camera);
@@ -168,11 +171,12 @@ namespace jam
     // Constrain player to screen
     {
       const auto b = m_player.getGlobalBounds();
+      const float scale = getInstance().config.float_("FBO_UPSCALE");
 
-      const float minX = m_camera.getCenter().x - m_camera.getSize().x * 0.5f + b.width * 0.5f;
-      const float maxX = m_camera.getCenter().x + m_camera.getSize().x * 0.5f - b.width * 0.5f;
-      const float minY = m_camera.getCenter().y - m_camera.getSize().y * 0.5f + b.height * 0.5f;
-      const float maxY = m_camera.getCenter().y + m_camera.getSize().y * 0.5f - b.height * 0.5f;
+      const float minX = (m_camera.getCenter().x - m_camera.getSize().x / scale * 0.5f + b.width * 0.5f);
+      const float maxX = (m_camera.getCenter().x + m_camera.getSize().x / scale * 0.5f - b.width * 0.5f);
+      const float minY = (m_camera.getCenter().y - m_camera.getSize().y / scale * 0.5f + b.height * 0.5f);
+      const float maxY = (m_camera.getCenter().y + m_camera.getSize().y / scale * 0.5f - b.height * 0.5f);
 
       m_player.setPosition(
         glm::clamp(m_player.getPosition().x, minX, maxX),

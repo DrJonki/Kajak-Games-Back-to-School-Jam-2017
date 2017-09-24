@@ -3,6 +3,8 @@ VIEW_Y=600
 
 # Game
 SPEED_MULT=1.0
+DEBUG_CAMERA=false
+FBO_UPSCALE=1.2
 
 # For debug/fun, makes losing impossible
 TRIP_MODE=false
