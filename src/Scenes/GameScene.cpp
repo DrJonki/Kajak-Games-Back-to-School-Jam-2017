@@ -88,7 +88,11 @@ namespace jam
 
     // Post effects
     ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag").setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(3, 5), 0.0008f, 0.1f, 0.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(1.3, 1.7), 0.3f, 0.03f, 0.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(7, 1.9), 0.3f, 0.025f, 0.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(2.3, 1.3), 0.3f, 0.02f, 0.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(3.1, 2.3), 0.3f, 0.01f, 0.0f).setActive(true);
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"basic.vert", "drunkness.frag").setActive(true);
   }
 

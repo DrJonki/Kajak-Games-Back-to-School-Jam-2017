@@ -61,7 +61,7 @@ namespace jam
 
     tripping.update(delta);
     postProcessor.update(delta),
-    postProcessor.render();
+    postProcessor.render(delta);
 
     if (currentScene)
       currentScene->postDraw(window);

@@ -29,7 +29,7 @@ namespace jam
 
     void update(const float delta);
 
-    void render();
+    void render(const float delta);
 
   private:
 

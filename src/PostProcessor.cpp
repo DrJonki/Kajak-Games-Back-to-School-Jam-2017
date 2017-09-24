@@ -28,12 +28,12 @@ namespace jam
 
   void PostProcessor::update(const float delta)
   {
-    for (auto& i : m_effects) {
-      i->update(delta);
-    }
+    //for (auto& i : m_effects) {
+    //  i->update(delta);
+    //}
   }
 
-  void PostProcessor::render()
+  void PostProcessor::render(const float delta)
   {
     auto& framebuffer = m_instance.framebuffer;
     auto& window = m_instance.window;
@@ -52,6 +52,7 @@ namespace jam
         if (!i->isActive()) {
           continue;
         }
+        i->update(delta);
 
         zero = !zero;
 
