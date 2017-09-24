@@ -50,10 +50,10 @@ namespace jam
 
       bool zero = true;
       for (auto& i : m_effects) {
+        i->update(delta);
         if (!i->isActive()) {
           continue;
         }
-        i->update(delta);
 
         zero = !zero;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Jam/PostEffect.hpp>
+#include <iostream>
 
 namespace jam
 {
@@ -14,15 +15,14 @@ namespace jam
       m_primeVec(primeVec),
       m_mass(mass),
       m_horizon(horizon),
-      m_active(active)
+      m_activeEffect(active)
     {
     }
 
     void update(const float delta) override {
       // setActive(getInstance().tripping.getIntensity() > getInstance().config.float_("HOLE_TIME"));
-      setActive(getInstance().tripping.getIntensity() > m_active);
+      setActive(getInstance().tripping.getIntensity() > m_activeEffect);
       sf::Shader& s = getShader();
-
       s.setUniform("tick", (m_timer += delta));
       s.setUniform("direction", (-1.f));
       s.setUniform("primeVec", m_primeVec);
@@ -36,6 +36,6 @@ namespace jam
     float m_timer;
     float m_mass;
     float m_horizon;
-    float m_active;
+    float m_activeEffect;
   };
 }

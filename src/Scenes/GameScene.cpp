@@ -45,7 +45,7 @@ namespace jam
       m_beenGameOver(0.f),
       m_startDuration(ins.config.float_("INFO_SCREEN_DURATION"))
   {
-    const float backgroundYScale = 5.f;
+    const float backgroundYScale = 10.f;
 
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(
@@ -128,11 +128,11 @@ namespace jam
 
     // Post effects
     ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(3, 5), 0.0008f, 0.1f, 0.0f).setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(1.3, 1.7), 0.3f, 0.03f, 0.0f).setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(7, 1.9), 0.3f, 0.025f, 0.0f).setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(2.3, 1.3), 0.3f, 0.02f, 0.0f).setActive(true);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(3.1, 2.3), 0.3f, 0.01f, 0.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(3, 5), 0.0016f, 0.1f, 6.1f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(1.3, 1.7), 0.03f, 0.08f, 10.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(7, 1.9), 0.3f, 0.025f, 15.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(2.3, 1.3), 0.3f, 0.02f, 15.0f).setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag", sf::Vector2f(3.1, 2.3), 0.3f, 0.01f, 15.0f).setActive(true);
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"basic.vert", "drunkness.frag").setActive(true);
   }
 
@@ -236,7 +236,7 @@ namespace jam
 
         m_background[i]->setActive(true);
         m_background[i]->setPosition(
-          m_camera.getCenter().x,
+          m_camera.getCenter().x-ns_stripHeight*10,
           i * ns_stripHeight + std::fmod(m_timer * speed * ns_stripHeight, ns_stripHeight * 2)
         );
       }
