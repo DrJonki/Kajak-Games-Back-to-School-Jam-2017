@@ -33,6 +33,7 @@ namespace jam
 
   private:
 
+    const sf::Vector2f m_fboRes;
     Instance& m_instance;
     sf::RectangleShape m_quad;
     std::vector<std::unique_ptr<PostEffect>> m_effects;

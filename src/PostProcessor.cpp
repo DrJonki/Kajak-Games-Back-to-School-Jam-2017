@@ -3,21 +3,17 @@
 #include <Jam/Scene.hpp>
 #include <Jam/PostEffect.hpp>
 #include <SFML/Graphics/Shader.hpp>
-#include <cassert>
 
 namespace jam
 {
   PostProcessor::PostProcessor(Instance& ins)
     : m_instance(ins),
-      m_effects()
+      m_effects(),
+      m_fboRes(sf::Vector2f(ins.window.getSize()) * ins.config.float_("FBO_UPSCALE"))
   {
-    const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
-
     for (std::size_t i = 0; i < 2; ++i) {
       auto& fbo = ins.framebuffer[i];
-
-      fbo.setView(sf::View(camSize * 0.5f, camSize));
-      assert(fbo.create(ins.window.getSize().x, ins.window.getSize().y));
+      fbo.create(static_cast<unsigned int>(m_fboRes.x), static_cast<unsigned int>(m_fboRes.y));
     }
   }
 
@@ -44,7 +40,7 @@ namespace jam
     auto& currentScene = m_instance.currentScene;
 
     window.setView(window.getDefaultView());
-    m_quad.setSize(window.getView().getSize());
+    m_quad.setSize(sf::Vector2f(m_fboRes));
 
     if (currentScene) {
       framebuffer[0].clear();
@@ -64,14 +60,14 @@ namespace jam
 
         m_quad.setTexture(&readFbo.getTexture());
 
-        writeFbo.setView(window.getDefaultView());
+        writeFbo.setView(sf::View(m_fboRes * 0.5f, m_fboRes));
         writeFbo.clear();
         writeFbo.draw(m_quad, sf::RenderStates(&i->getShader()));
         writeFbo.display();
       }
 
       window.clear();
-
+      window.setView(sf::View(m_fboRes * 0.5f, window.getDefaultView().getSize()));
       m_quad.setTexture(&framebuffer[!zero].getTexture());
       window.draw(m_quad);
     }
