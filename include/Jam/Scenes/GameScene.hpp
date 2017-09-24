@@ -5,6 +5,8 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include <vector>
 
 namespace jam
@@ -41,6 +43,10 @@ namespace jam
     float m_timer;
     float m_gameoverTimer;
     float m_mushRoomForceTimer;
+
+    // Audio
+    sf::Music m_mainMusic;
+    sf::Sound m_shroomSound;
 
     // UI
     sf::Text m_scoreText;

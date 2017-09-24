@@ -35,7 +35,9 @@ namespace jam
       m_scoreText("Score: 0", getFont(ins)),
       m_gameoverTimer(ins.config.float_("LOSE_TIMER_ROOF")),
       m_mushRoomForceTimer(0.f),
-      m_gameoverHint("Press eny key to restart\nESCAPE to quit", getFont(ins))
+      m_gameoverHint("Press eny key to restart\nESCAPE to quit", getFont(ins)),
+      m_mainMusic(),
+      m_shroomSound(ins.resourceManager.GetSoundBuffer("shroom.ogg"))
   {
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(sf::Vector2f(camSize.x * 0.5f, camSize.y * 2.5f), camSize);
@@ -69,6 +71,16 @@ namespace jam
 
     m_gameoverHint.setOutlineThickness(1.f);
     m_gameoverHint.setOrigin(m_gameoverHint.getLocalBounds().width / 2, m_gameoverHint.getLocalBounds().height / 2);
+
+    // Music
+    m_mainMusic.openFromFile("assets/Audio/badger.ogg");
+    m_mainMusic.setRelativeToListener(true);
+    m_mainMusic.setLoop(true);
+    m_mainMusic.play();
+
+    // Sounds
+    m_mainMusic.setRelativeToListener(true);
+    m_mainMusic.setVolume(25.f);
 
     // Post effects
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"post-process.vert", "post-process.frag").setActive(true);
@@ -129,6 +141,8 @@ namespace jam
           if (playerCollided) {
             getInstance().tripping.incrementIntensity(intensityIncrement);
             m_gameoverTimer = loseTimerRoof;
+            m_shroomSound.setPitch(rand.range(0.8f, 1.2f));
+            m_shroomSound.play();
           }
         }
       }
