@@ -14,10 +14,10 @@ namespace jam
     float intencity = std::min(getInstance().tripping.getIntensity() / 15, 1.8f);
 
     s.setUniform("tick", (m_timer += delta));
-    s.setUniform("drunkness.positionalWaveLength", sf::Vector2f(0.03f, 0.22f));
-    s.setUniform("drunkness.positionalWaveHeight", sf::Vector2f(0.02f, 0.02f));
-    s.setUniform("drunkness.standingWaveHeight", sf::Vector2f(0.02f, 0.06f));
-    s.setUniform("drunkness.standingFreq", sf::Vector2f(3.5f, 1.f));
+    s.setUniform("drunkness.positionalWaveLength", std::max(intencity, 0.01f) * sf::Vector2f(0.03f, 0.22f));
+    s.setUniform("drunkness.positionalWaveHeight", intencity * sf::Vector2f(0.02f, 0.02f));
+    s.setUniform("drunkness.standingWaveHeight", intencity * sf::Vector2f(0.02f, 0.06f));
+    s.setUniform("drunkness.standingFreq", intencity *sf::Vector2f(3.5f, 1.f));
     s.setUniform("drunkness.positionalCompressionRates", intencity * sf::Vector2f(0.05f, 0.03f));
   }
 }
