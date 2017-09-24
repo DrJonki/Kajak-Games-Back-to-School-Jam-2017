@@ -12,7 +12,7 @@ namespace jam
       m_timer(0.f){}
 
     void update(const float delta) override {
-      setActive(getInstance().tripping.getIntensity() > 5.f);
+      setActive(getInstance().tripping.getIntensity() > getInstance().config.float_("HOLE_TIME"));
       sf::Shader& s = getShader();
       sf::Vector2f vectors[5] = {
         sf::Vector2f(0.5, 0.5), 
