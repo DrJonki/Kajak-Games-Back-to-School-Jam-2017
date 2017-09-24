@@ -14,6 +14,7 @@ namespace jam
     for (std::size_t i = 0; i < 2; ++i) {
       auto& fbo = ins.framebuffer[i];
       fbo.create(static_cast<unsigned int>(m_fboRes.x), static_cast<unsigned int>(m_fboRes.y));
+      fbo.setSmooth(true);
     }
   }
 

@@ -78,7 +78,7 @@ namespace jam
     m_timeRect.setOutlineThickness(1.f);
     m_timeRect.setSize(sf::Vector2f(camSize.x * 0.4f, 10.f));
     m_timeRect.setOrigin(m_timeRect.getLocalBounds().width, 0.f);
-    m_timeRect.setPosition(camSize.x - 10.f, 10.f);
+    m_timeRect.setPosition(ins.window.getDefaultView().getSize().x - 10.f, 10.f);
 
     m_gameoverHint[1].setString("Press eny key to restart\n\t\tESCAPE to quit");
     m_gameoverHint[1].setFont(getFont(ins));
@@ -97,16 +97,18 @@ namespace jam
       m_gameoverHint[0].getLocalBounds().height / 2
     );
 
-    m_gameStartHint[0].setString("You're a badger...");
-    m_gameStartHint[1].setString("You must consume mushrooms\n\t\t\tto stay alive");
-    m_gameStartHint[2].setString("Use WASD or arrow keys\n\t\t\tto move");
+    m_gameStartHint[0].setString("EPILEPSY\nWARNING!");
+    m_gameStartHint[1].setString("You're a badger...");
+    m_gameStartHint[2].setString("You must consume mushrooms\n\t\t\tto stay alive");
+    m_gameStartHint[3].setString("Use WASD or arrow keys\n\t\t\tto move");
 
     for (auto& i : m_gameStartHint) {
       i.setFont(getFont(ins));
       i.setCharacterSize(36);
       i.setOrigin(i.getLocalBounds().width / 2.f, i.getLocalBounds().height / 2.f);
-      i.setPosition(camSize / 2.f);
+      i.setPosition(ins.window.getDefaultView().getSize() / 2.f);
     }
+    m_gameStartHint[0].setCharacterSize(46);
 
     // Music
     m_mainMusic.openFromFile("assets/Audio/badger.ogg");
@@ -150,6 +152,14 @@ namespace jam
 
     static const float loseTimerRoof = getInstance().config.float_("LOSE_TIMER_ROOF");
     static const float intensityIncrement = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
+
+    const float intensity = getInstance().tripping.getIntensity() / intensityIncrement;
+    const float soundThreshold = 15.f;
+    if (intensity >= soundThreshold) {
+      const auto pitch = 1.f + std::sin(m_timer * 0.2f) * std::min(0.5f, (intensity - soundThreshold) / 100.f);
+      m_mainMusic.setPitch(pitch);
+      std::cout << pitch << std::endl;
+    }
 
     m_timer += delta;
     m_gameoverTimer -= delta * !isTripMode();

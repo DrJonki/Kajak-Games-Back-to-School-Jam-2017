@@ -17,6 +17,8 @@ namespace jam
 
   class GameScene : public Scene
   {
+    friend class Player;
+
   public:
 
     GameScene(Instance& ins, const bool started = false);
@@ -57,7 +59,7 @@ namespace jam
     // UI
     sf::Text m_scoreText;
     sf::Text m_gameoverHint[3];
-    std::array<sf::Text, 3> m_gameStartHint;
+    std::array<sf::Text, 4> m_gameStartHint;
     sf::RectangleShape m_timeRect;
   };
 }
