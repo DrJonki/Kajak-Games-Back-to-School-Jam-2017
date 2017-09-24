@@ -1,10 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics/Shader.hpp>
+#include <Jam/Instance.hpp>
 
 namespace jam
 {
-  class Instance;
 
   class PostEffect
   {
@@ -27,8 +27,11 @@ namespace jam
 
     bool isActive() const;
 
+    Instance &getInstance();
+
   private:
 
+    Instance &m_instance;
     sf::Shader& m_shader;
     const std::string m_name;
     bool m_active;
