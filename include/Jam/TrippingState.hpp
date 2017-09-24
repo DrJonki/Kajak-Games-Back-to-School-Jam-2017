@@ -16,6 +16,8 @@ namespace jam
 
     float getIntensity() const;
 
+    float getIntensityTarget() const;
+
   private:
 
     float m_intensity;

@@ -43,6 +43,12 @@ namespace jam
     return m_instance;
   }
 
+
+  const Instance& Scene::getInstance() const
+  {
+    return m_instance;
+  }
+
   void Scene::setView(const sf::View& view)
   {
     m_view = view;

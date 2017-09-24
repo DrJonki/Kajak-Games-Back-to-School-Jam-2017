@@ -15,6 +15,11 @@
 namespace
 {
   const float ns_stripHeight = 70.f;
+
+  sf::Font& getFont(jam::Instance& ins)
+  {
+    return ins.resourceManager.GetFont("RockSalt-Regular.ttf");
+  }
 }
 
 namespace jam
@@ -28,8 +33,10 @@ namespace jam
       m_player(m_gameLayer.insert<Player>("Player", ins)),
       m_camera(),
       m_timer(0),
-      m_scoreText("Score: 0", ins.resourceManager.GetFont("RockSalt-Regular.ttf")),
-      m_gameoverTimer(ins.config.float_("LOSE_TIMER_ROOF"))
+      m_scoreText("Score: 0", getFont(ins)),
+      m_gameoverTimer(ins.config.float_("LOSE_TIMER_ROOF")),
+      m_mushRoomForceTimer(0.f),
+      m_gameoverHint("Press eny key to restart\nESCAPE to quit", getFont(ins))
   {
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(sf::Vector2f(camSize.x * 0.5f, camSize.y * 2.5f), camSize);
@@ -61,6 +68,9 @@ namespace jam
     m_timeRect.setOrigin(m_timeRect.getLocalBounds().width, 0.f);
     m_timeRect.setPosition(camSize.x - 10.f, 10.f);
 
+    m_gameoverHint.setOutlineThickness(1.f);
+    m_gameoverHint.setOrigin(m_gameoverHint.getLocalBounds().width / 2, m_gameoverHint.getLocalBounds().height / 2);
+
     // Post effects
     ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(true);
     ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag").setActive(true);
@@ -70,11 +80,24 @@ namespace jam
   void GameScene::update(const float delta)
   {
     static const float loseTimerRoof = getInstance().config.float_("LOSE_TIMER_ROOF");
+    static const float intensityIncrement = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
 
     m_timer += delta;
+    m_gameoverTimer -= delta * !isTripMode();
 
-    if ((m_gameoverTimer -= delta) < 0.f) {
-      getInstance().window.close();
+    m_scoreText.setString("Score: " + std::to_string(static_cast<int>(getInstance().tripping.getIntensityTarget() / intensityIncrement)));
+
+    if (isGameOver()) {
+      m_player.setActive(false);
+
+      const auto basePos = getInstance().window.getView().getCenter();
+
+      m_scoreText.setCharacterSize(46);
+      m_scoreText.setOrigin(m_scoreText.getLocalBounds().width / 2, m_scoreText.getLocalBounds().height / 2);
+      m_scoreText.setPosition(basePos.x, basePos.y - 60.f);
+
+      m_gameoverHint.setPosition(basePos.x, basePos.y + 60.f);
+
       return;
     }
 
@@ -85,7 +108,8 @@ namespace jam
       static const float freq = getInstance().config.float_("MUSHROOM_SPAWN_FREQ");
       static Randomizer rand;
 
-      if (rand.range(0.0f, 1.0f) <= freq) {
+      if (rand.range(0.0f, 1.0f) <= freq || (m_mushRoomForceTimer += delta) >= loseTimerRoof / 2) {
+        m_mushRoomForceTimer = 0.f;
         auto& shroom = m_shroomLayer.insert<Mushroom>("", getInstance());
 
         shroom.setPosition(
@@ -105,11 +129,7 @@ namespace jam
           i->erase();
 
           if (playerCollided) {
-            static const float incr = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
-
-            getInstance().tripping.incrementIntensity(incr);
-            m_scoreText.setString("Score: " + std::to_string(static_cast<int>(getInstance().tripping.getIntensity() / incr)));
-
+            getInstance().tripping.incrementIntensity(intensityIncrement);
             m_gameoverTimer = loseTimerRoof;
           }
         }
@@ -156,7 +176,33 @@ namespace jam
   {
     target.setView(target.getDefaultView());
 
-    target.draw(m_scoreText);
-    target.draw(m_timeRect);
+    if (!isTripMode()) {
+      target.draw(m_scoreText);
+      target.draw(m_timeRect);
+    }
+
+    if (isGameOver()) {
+      target.draw(m_gameoverHint);
+    }
   }
+
+  void GameScene::textEvent(const uint32_t code)
+  {
+    if (isGameOver() && code != 27) {
+      getInstance().tripping.reset();
+      getInstance().currentScene = std::make_unique<GameScene>(getInstance());
+    }
+  }
+
+  bool GameScene::isGameOver() const
+  {
+    return m_gameoverTimer < 0.f;
+  }
+
+  bool GameScene::isTripMode() const
+  {
+    static const bool tripMode = getInstance().config.boolean("TRIP_MODE");
+    return tripMode;
+  }
+
 }
