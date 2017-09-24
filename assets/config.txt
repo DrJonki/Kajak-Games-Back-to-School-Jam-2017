@@ -7,7 +7,7 @@ DEBUG_CAMERA=false
 FBO_UPSCALE=1.2
 
 # For debug/fun, makes losing impossible
-TRIP_MODE=false
+TRIP_MODE=true
 
 # Level
 BACKGROUND_SCROLL_SPEED=4.0

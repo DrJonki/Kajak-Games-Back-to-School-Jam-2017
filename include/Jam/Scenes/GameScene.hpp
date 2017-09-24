@@ -7,6 +7,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/Sound.hpp>
+#include <Jam/ParticleEmitter.hpp>
 #include <vector>
 #include <array>
 

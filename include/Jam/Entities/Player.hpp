@@ -25,5 +25,7 @@ namespace jam
 
     Instance& m_instance;
     mutable ParticleEmitter m_emitter;
+    mutable ParticleEmitter m_emitter2;
+    mutable ParticleEmitter m_emitter3;
   };
 }

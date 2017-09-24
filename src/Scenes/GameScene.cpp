@@ -158,7 +158,6 @@ namespace jam
     if (intensity >= soundThreshold) {
       const auto pitch = 1.f + std::sin(m_timer * 0.2f) * std::min(0.5f, (intensity - soundThreshold) / 100.f);
       m_mainMusic.setPitch(pitch);
-      std::cout << pitch << std::endl;
     }
 
     m_timer += delta;
