@@ -43,7 +43,7 @@ namespace jam
 
     if (m_instance.tripping.getIntensity() > 0)
     {
-      setScale(0.6f + 0.1*sin(10*m_timer), 0.6f + 0.1*cos(10*m_timer));
+      setScale(0.6f + 0.1f*sin(10*m_timer), 0.6f + 0.1f*cos(10*m_timer));
     }
   }
 

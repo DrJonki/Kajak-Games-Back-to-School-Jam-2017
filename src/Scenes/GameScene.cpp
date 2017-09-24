@@ -43,7 +43,8 @@ namespace jam
       m_started(started),
       m_startTimer(0.f),
       m_beenGameOver(0.f),
-      m_startDuration(ins.config.float_("INFO_SCREEN_DURATION"))
+      m_startDuration(ins.config.float_("INFO_SCREEN_DURATION")),
+      m_spacePressed(true)
   {
     const float backgroundYScale = 10.f;
 
@@ -140,7 +141,10 @@ namespace jam
   {
     m_mainMusic.setVolume(ns_minVol + m_started * std::min(100.f - ns_minVol, m_mainMusic.getVolume() + delta * 5.f - ns_minVol));
 
-    if (!m_started && (m_startTimer += delta) >= m_gameStartHint.size() * m_startDuration) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+      m_spacePressed = true;
+
+    if (!m_started && (m_startTimer += delta * m_spacePressed) >= m_gameStartHint.size() * m_startDuration) {
       m_started = true;
     }
 

@@ -52,6 +52,7 @@ namespace jam
     float m_startTimer;
     float m_beenGameOver;
     bool m_started;
+    bool m_spacePressed;
 
     // Audio
     sf::Music m_mainMusic;

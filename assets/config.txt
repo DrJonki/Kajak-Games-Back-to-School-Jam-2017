@@ -6,6 +6,9 @@ SPEED_MULT=0.75
 DEBUG_CAMERA=false
 FBO_UPSCALE=1.2
 
+#
+INFO_SCREEN_DURATION=2.0
+
 # For debug/fun, makes losing impossible
 TRIP_MODE=false
 
@@ -14,13 +17,13 @@ BACKGROUND_SCROLL_SPEED=4.0
 MUSHROOM_MOVEMENT_SPEED=500.0
 
 # 0.0 = no spawns, 1.0 = every frame
-MUSHROOM_SPAWN_FREQ=0.02
+MUSHROOM_SPAWN_FREQ=0.015
 
 # Intensity increment / mushroom
 MUSHROOM_INTENSITY_INCREMENT=0.2
 
 # Maximum value for game over timer
-LOSE_TIMER_ROOF=15.0
+LOSE_TIMER_ROOF=10.0
 
 # Player
 PLAYER_MOVEMENT_SPEED=600.0
