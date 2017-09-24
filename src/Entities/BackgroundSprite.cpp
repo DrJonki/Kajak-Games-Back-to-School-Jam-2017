@@ -3,6 +3,13 @@
 
 namespace jam
 {
+
+  BackgroundSprite::BackgroundSprite()
+    : Entity(),
+      sf::RectangleShape()
+  {
+  }
+
   void BackgroundSprite::draw(sf::RenderTarget& target)
   {
     target.draw(*this);

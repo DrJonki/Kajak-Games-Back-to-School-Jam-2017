@@ -7,7 +7,9 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/Sound.hpp>
+#include <Jam/ParticleEmitter.hpp>
 #include <vector>
+#include <array>
 
 namespace jam
 {
@@ -16,9 +18,11 @@ namespace jam
 
   class GameScene : public Scene
   {
+    friend class Player;
+
   public:
 
-    GameScene(Instance& ins);
+    GameScene(Instance& ins, const bool started = false);
 
     void update(const float delta) override;
 
@@ -34,6 +38,8 @@ namespace jam
 
     bool isTripMode() const;
 
+    const float m_startDuration;
+
     std::vector<BackgroundSprite*> m_background;
     Layer& m_backgroundLayer;
     Layer& m_gameLayer;
@@ -43,6 +49,9 @@ namespace jam
     float m_timer;
     float m_gameoverTimer;
     float m_mushRoomForceTimer;
+    float m_startTimer;
+    float m_beenGameOver;
+    bool m_started;
 
     // Audio
     sf::Music m_mainMusic;
@@ -50,7 +59,8 @@ namespace jam
 
     // UI
     sf::Text m_scoreText;
-    sf::Text m_gameoverHint;
+    sf::Text m_gameoverHint[3];
+    std::array<sf::Text, 5> m_gameStartHint;
     sf::RectangleShape m_timeRect;
   };
 }

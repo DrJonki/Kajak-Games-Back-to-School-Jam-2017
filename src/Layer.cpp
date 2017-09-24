@@ -7,7 +7,8 @@ namespace jam
   Layer::Layer()
     : m_entities(),
       m_sharedView(nullptr),
-      m_view()
+      m_view(),
+      m_active(true)
   {
 
   }
@@ -17,6 +18,9 @@ namespace jam
 
   void Layer::update(const float dt)
   {
+    if (!isActive())
+      return;
+
     for (auto itr = m_entities.begin(); itr != m_entities.end();) {
       if (itr->second->isErased()) {
         itr = m_entities.erase(itr);
@@ -30,6 +34,9 @@ namespace jam
 
   void Layer::draw(sf::RenderTarget& target)
   {
+    if (!isActive())
+      return;
+
     for (auto& i : m_entities) {
       target.setView(m_sharedView ? *m_sharedView : m_view);
       i.second->baseDraw(target);
@@ -85,4 +92,15 @@ namespace jam
     }
     return entities;
   }
+
+  void Layer::setActive(const bool active)
+  {
+    m_active = active;
+  }
+
+  bool Layer::isActive() const
+  {
+    return m_active;
+  }
+
 }

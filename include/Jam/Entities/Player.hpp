@@ -2,6 +2,7 @@
 
 #include <Jam/Entity.hpp>
 #include <Jam/AnimatedSprite.hpp>
+#include <Jam/ParticleEmitter.hpp>
 
 namespace jam
 {
@@ -23,5 +24,8 @@ namespace jam
   private:
 
     Instance& m_instance;
+    mutable ParticleEmitter m_emitter;
+    mutable ParticleEmitter m_emitter2;
+    mutable ParticleEmitter m_emitter3;
   };
 }

@@ -6,6 +6,8 @@ SPEED_MULT=0.75
 DEBUG_CAMERA=false
 FBO_UPSCALE=1.2
 
+INFO_SCREEN_DURATION=2.0
+
 # For debug/fun, makes losing impossible
 TRIP_MODE=false
 
