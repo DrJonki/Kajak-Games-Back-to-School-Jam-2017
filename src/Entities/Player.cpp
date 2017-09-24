@@ -66,11 +66,11 @@ namespace jam
       m_emitter3.setPosition(getPosition());
       m_emitter.emit();
 
-      if (m_instance.tripping.getIntensity() >= 5.f) {
-        m_emitter2.emit();
-      }
       if (m_instance.tripping.getIntensity() >= 8.f) {
         m_emitter3.emit();
+      }
+      else if (m_instance.tripping.getIntensity() >= 5.f) {
+        m_emitter2.emit();
       }
     }
 
