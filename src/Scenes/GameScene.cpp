@@ -62,8 +62,8 @@ namespace jam
     m_timeRect.setPosition(camSize.x - 10.f, 10.f);
 
     // Post effects
-    ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(false);
-    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag").setActive(false);
+    ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(true);
+    ins.postProcessor.createEffect<BlackHole>("BlackHole", "basic.vert", "black-hole.frag").setActive(true);
     ins.postProcessor.createEffect<Drunkness>("Drunkness" ,"basic.vert", "drunkness.frag").setActive(true);
   }
 
