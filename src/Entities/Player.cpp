@@ -8,7 +8,7 @@ namespace jam
 {
 
   Player::Player(Instance& ins)
-    : AnimatedSprite(ins.resourceManager.GetTexture("badger_delay.png"), 200, 180, 5, 0.058f),
+    : AnimatedSprite(ins.resourceManager.GetTexture("badger_delay.png"), 200, 180, 5, 0.058f / ins.config.float_("SPEED_MULT")),
       m_instance(ins)
   {
 
