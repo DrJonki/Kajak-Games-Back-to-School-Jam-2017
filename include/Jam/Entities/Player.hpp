@@ -27,5 +27,6 @@ namespace jam
     mutable ParticleEmitter m_emitter;
     mutable ParticleEmitter m_emitter2;
     mutable ParticleEmitter m_emitter3;
+    float m_timer;
   };
 }

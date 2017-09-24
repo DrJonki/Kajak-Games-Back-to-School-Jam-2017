@@ -27,8 +27,8 @@ void main()
 	);
 
 	vec2 positionalPartial = vec2(
-		drunkness.positionalWaveHeight.y * sin(gl_TexCoord[0].y / drunkness.positionalWaveLength.y) + positionalCompression.x,
-		drunkness.positionalWaveHeight.x * sin(gl_TexCoord[0].x / drunkness.positionalWaveLength.x) + positionalCompression.y
+		drunkness.positionalWaveHeight.y * sin((gl_TexCoord[0].x + gl_TexCoord[0].y) / drunkness.positionalWaveLength.y) + positionalCompression.y,
+		drunkness.positionalWaveHeight.x * sin((gl_TexCoord[0].x + gl_TexCoord[0].y) / drunkness.positionalWaveLength.x) + positionalCompression.x
 	);
 
 	vec2 wave = standingPartial + positionalPartial;
