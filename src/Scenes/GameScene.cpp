@@ -202,6 +202,7 @@ namespace jam
   {
     if (isGameOver() && code != 27) {
       getInstance().tripping.reset();
+      getInstance().postProcessor.clearEffects();
       getInstance().currentScene = std::make_unique<GameScene>(getInstance());
     }
   }
