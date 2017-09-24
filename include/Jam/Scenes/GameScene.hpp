@@ -38,7 +38,7 @@ namespace jam
 
     bool isTripMode() const;
 
-    static const float StartTiming;
+    const float m_startDuration;
 
     std::vector<BackgroundSprite*> m_background;
     Layer& m_backgroundLayer;
@@ -60,7 +60,7 @@ namespace jam
     // UI
     sf::Text m_scoreText;
     sf::Text m_gameoverHint[3];
-    std::array<sf::Text, 4> m_gameStartHint;
+    std::array<sf::Text, 5> m_gameStartHint;
     sf::RectangleShape m_timeRect;
   };
 }

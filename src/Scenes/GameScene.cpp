@@ -42,11 +42,14 @@ namespace jam
       m_shroomSound(ins.resourceManager.GetSoundBuffer("shroom.ogg")),
       m_started(started),
       m_startTimer(0.f),
-      m_beenGameOver(0.f)
+      m_beenGameOver(0.f),
+      m_startDuration(ins.config.float_("INFO_SCREEN_DURATION"))
   {
+    const float backgroundYScale = 5.f;
+
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(
-      sf::Vector2f(camSize.x * 0.5f, camSize.y * 2.5f),
+      sf::Vector2f(camSize.x * 0.5f, camSize.y * backgroundYScale * 0.5f),
       camSize * (ins.config.boolean("DEBUG_CAMERA") * 10.f + 1.f) * ins.config.float_("FBO_UPSCALE")
      );
 
@@ -57,7 +60,7 @@ namespace jam
     m_shroomLayer.setSharedView(&m_camera);
     m_gameLayer.setActive(false);
 
-    for (std::size_t i = 0u; camSize.y * 5.f > (i + 1) * ns_stripHeight; ++i) {
+    for (std::size_t i = 0u; camSize.y * backgroundYScale > (i + 1) * ns_stripHeight; ++i) {
       auto& bk = m_backgroundLayer.insert<BackgroundSprite>(std::to_string(i));
       m_background.push_back(&bk);
 
@@ -97,18 +100,20 @@ namespace jam
       m_gameoverHint[0].getLocalBounds().height / 2
     );
 
+    m_gameStartHint[0].setCharacterSize(46);
+    m_gameStartHint[3].setCharacterSize(44);
     m_gameStartHint[0].setString("EPILEPSY\nWARNING!");
     m_gameStartHint[1].setString("You're a badger...");
     m_gameStartHint[2].setString("You must consume mushrooms\n\t\t\tto stay alive");
-    m_gameStartHint[3].setString("Use WASD or arrow keys\n\t\t\tto move");
+    m_gameStartHint[3].setString("\t  DISCLAIMER\nDrugs are bad, mkay?");
+    m_gameStartHint[4].setString("Use WASD or arrow keys\n\t\t\tto move");
 
     for (auto& i : m_gameStartHint) {
       i.setFont(getFont(ins));
-      i.setCharacterSize(36);
+      i.setCharacterSize(i.getCharacterSize() == 30 ? 36 : i.getCharacterSize());
       i.setOrigin(i.getLocalBounds().width / 2.f, i.getLocalBounds().height / 2.f);
       i.setPosition(ins.window.getDefaultView().getSize() / 2.f);
     }
-    m_gameStartHint[0].setCharacterSize(46);
 
     // Music
     m_mainMusic.openFromFile("assets/Audio/badger.ogg");
@@ -131,7 +136,7 @@ namespace jam
   {
     m_mainMusic.setVolume(ns_minVol + m_started * std::min(100.f - ns_minVol, m_mainMusic.getVolume() + delta * 5.f - ns_minVol));
 
-    if (!m_started && (m_startTimer += delta) >= m_gameStartHint.size() * StartTiming) {
+    if (!m_started && (m_startTimer += delta) >= m_gameStartHint.size() * m_startDuration) {
       m_started = true;
     }
 
@@ -171,7 +176,7 @@ namespace jam
       const auto basePos = getInstance().window.getView().getCenter();
 
       m_scoreText.setCharacterSize(46);
-      m_scoreText.setOrigin(m_scoreText.getLocalBounds().width / 2, m_scoreText.getLocalBounds().height / 2);
+      m_scoreText.setOrigin(m_scoreText.getLocalBounds().width / 2.f, m_scoreText.getLocalBounds().height / 2.f);
       m_scoreText.setPosition(basePos.x, basePos.y - 60.f);
 
       m_gameoverHint[0].setPosition(basePos.x, basePos.y - 150.f);
@@ -260,7 +265,7 @@ namespace jam
     target.setView(target.getDefaultView());
 
     if (!m_started) {
-      target.draw(m_gameStartHint[static_cast<unsigned int>(m_startTimer / StartTiming)]);
+      target.draw(m_gameStartHint[static_cast<unsigned int>(m_startTimer / m_startDuration)]);
       return;
     }
 
@@ -304,7 +309,5 @@ namespace jam
     static const bool tripMode = getInstance().config.boolean("TRIP_MODE");
     return tripMode;
   }
-
-  const float GameScene::StartTiming = 3.f;
 
 }
