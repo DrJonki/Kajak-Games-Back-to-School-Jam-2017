@@ -36,6 +36,7 @@ namespace jam
       tripping()
   {
     window.setVerticalSyncEnabled(true);
+    window.setKeyRepeatEnabled(false);
     window.setMouseCursorVisible(
     #ifdef _DEBUG
       true

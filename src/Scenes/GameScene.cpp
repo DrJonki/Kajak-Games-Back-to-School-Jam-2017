@@ -15,6 +15,7 @@
 namespace
 {
   const float ns_stripHeight = 70.f;
+  const float ns_minVol = 5.f;
 
   sf::Font& getFont(jam::Instance& ins)
   {
@@ -24,7 +25,7 @@ namespace
 
 namespace jam
 {
-  GameScene::GameScene(Instance& ins)
+  GameScene::GameScene(Instance& ins, const bool started)
     : Scene(ins),
       m_background(),
       m_backgroundLayer(addLayer(5)),
@@ -36,9 +37,12 @@ namespace jam
       m_scoreText("Score: 0", getFont(ins)),
       m_gameoverTimer(ins.config.float_("LOSE_TIMER_ROOF")),
       m_mushRoomForceTimer(0.f),
-      m_gameoverHint("Press eny key to restart\nESCAPE to quit", getFont(ins)),
+      m_gameoverHint(),
       m_mainMusic(),
-      m_shroomSound(ins.resourceManager.GetSoundBuffer("shroom.ogg"))
+      m_shroomSound(ins.resourceManager.GetSoundBuffer("shroom.ogg")),
+      m_started(started),
+      m_startTimer(0.f),
+      m_beenGameOver(0.f)
   {
     const auto camSize = sf::Vector2f(ins.config.float_("VIEW_X"), ins.config.float_("VIEW_Y"));
     m_camera = sf::View(
@@ -47,8 +51,11 @@ namespace jam
      );
 
     m_backgroundLayer.setSharedView(&m_camera);
+    m_backgroundLayer.setActive(false);
     m_gameLayer.setSharedView(&m_camera);
+    m_gameLayer.setActive(false);
     m_shroomLayer.setSharedView(&m_camera);
+    m_gameLayer.setActive(false);
 
     for (std::size_t i = 0u; camSize.y * 5.f > (i + 1) * ns_stripHeight; ++i) {
       auto& bk = m_backgroundLayer.insert<BackgroundSprite>(std::to_string(i));
@@ -73,18 +80,44 @@ namespace jam
     m_timeRect.setOrigin(m_timeRect.getLocalBounds().width, 0.f);
     m_timeRect.setPosition(camSize.x - 10.f, 10.f);
 
-    m_gameoverHint.setOutlineThickness(1.f);
-    m_gameoverHint.setOrigin(m_gameoverHint.getLocalBounds().width / 2, m_gameoverHint.getLocalBounds().height / 2);
+    m_gameoverHint[1].setString("Press eny key to restart\n\t\tESCAPE to quit");
+    m_gameoverHint[1].setFont(getFont(ins));
+    m_gameoverHint[1].setOutlineThickness(1.f);
+    m_gameoverHint[1].setOrigin(
+      m_gameoverHint[1].getLocalBounds().width / 2,
+      m_gameoverHint[1].getLocalBounds().height / 2
+    );
+
+    m_gameoverHint[0].setString("You died from withdrawal!");
+    m_gameoverHint[0].setFont(getFont(ins));
+    m_gameoverHint[0].setOutlineThickness(2.f);
+    m_gameoverHint[0].setCharacterSize(36);
+    m_gameoverHint[0].setOrigin(
+      m_gameoverHint[0].getLocalBounds().width / 2,
+      m_gameoverHint[0].getLocalBounds().height / 2
+    );
+
+    m_gameStartHint[0].setString("You're a badger...");
+    m_gameStartHint[1].setString("You must consume mushrooms\n\t\t\tto stay alive");
+    m_gameStartHint[2].setString("Use WASD or arrow keys\n\t\t\tto move");
+
+    for (auto& i : m_gameStartHint) {
+      i.setFont(getFont(ins));
+      i.setCharacterSize(36);
+      i.setOrigin(i.getLocalBounds().width / 2.f, i.getLocalBounds().height / 2.f);
+      i.setPosition(camSize / 2.f);
+    }
 
     // Music
     m_mainMusic.openFromFile("assets/Audio/badger.ogg");
     m_mainMusic.setRelativeToListener(true);
     m_mainMusic.setLoop(true);
+    m_mainMusic.setVolume(ns_minVol);
     m_mainMusic.play();
 
     // Sounds
-    m_mainMusic.setRelativeToListener(true);
-    m_mainMusic.setVolume(25.f);
+    m_shroomSound.setRelativeToListener(true);
+    m_shroomSound.setVolume(20.f);
 
     // Post effects
     ins.postProcessor.createEffect<HippieColors>("HippieColors", "basic.vert", "hippie-colors.frag").setActive(true);
@@ -94,6 +127,27 @@ namespace jam
 
   void GameScene::update(const float delta)
   {
+    m_mainMusic.setVolume(ns_minVol + m_started * std::min(100.f - ns_minVol, m_mainMusic.getVolume() + delta * 5.f - ns_minVol));
+
+    if (!m_started && (m_startTimer += delta) >= m_gameStartHint.size() * StartTiming) {
+      m_started = true;
+    }
+
+    // Intro
+    if (!m_started)
+    {
+      return;
+    }
+    else {
+      m_backgroundLayer.setActive(true);
+      m_gameLayer.setActive(true);
+      m_gameLayer.setActive(true);
+    }
+
+    if (isGameOver()) {
+      m_beenGameOver += delta;
+    }
+
     static const float loseTimerRoof = getInstance().config.float_("LOSE_TIMER_ROOF");
     static const float intensityIncrement = getInstance().config.float_("MUSHROOM_INTENSITY_INCREMENT");
 
@@ -111,7 +165,8 @@ namespace jam
       m_scoreText.setOrigin(m_scoreText.getLocalBounds().width / 2, m_scoreText.getLocalBounds().height / 2);
       m_scoreText.setPosition(basePos.x, basePos.y - 60.f);
 
-      m_gameoverHint.setPosition(basePos.x, basePos.y + 60.f);
+      m_gameoverHint[0].setPosition(basePos.x, basePos.y - 150.f);
+      m_gameoverHint[1].setPosition(basePos.x, basePos.y + 60.f);
 
       return;
     }
@@ -161,6 +216,7 @@ namespace jam
       for (std::size_t i = 0u; i < m_background.size(); ++i) {
         static const float speed = getInstance().config.float_("BACKGROUND_SCROLL_SPEED");
 
+        m_background[i]->setActive(true);
         m_background[i]->setPosition(
           m_camera.getCenter().x,
           i * ns_stripHeight + std::fmod(m_timer * speed * ns_stripHeight, ns_stripHeight * 2)
@@ -194,22 +250,38 @@ namespace jam
   {
     target.setView(target.getDefaultView());
 
+    if (!m_started) {
+      target.draw(m_gameStartHint[static_cast<unsigned int>(m_startTimer / StartTiming)]);
+      return;
+    }
+
     if (!isTripMode()) {
       target.draw(m_scoreText);
       target.draw(m_timeRect);
     }
 
     if (isGameOver()) {
-      target.draw(m_gameoverHint);
+      target.draw(m_gameoverHint[0]);
+      target.draw(m_gameoverHint[1]);
     }
   }
 
   void GameScene::textEvent(const uint32_t code)
   {
-    if (isGameOver() && code != 27) {
+    if (code == 27)
+      return;
+
+    if (isGameOver() && m_beenGameOver <= 1.f)
+      return;
+
+    if (!m_started) {
+      m_started = true;
+    }
+
+    if (isGameOver()) {
       getInstance().tripping.reset();
       getInstance().postProcessor.clearEffects();
-      getInstance().currentScene = std::make_unique<GameScene>(getInstance());
+      getInstance().currentScene = std::make_unique<GameScene>(getInstance(), true);
     }
   }
 
@@ -223,5 +295,7 @@ namespace jam
     static const bool tripMode = getInstance().config.boolean("TRIP_MODE");
     return tripMode;
   }
+
+  const float GameScene::StartTiming = 3.f;
 
 }

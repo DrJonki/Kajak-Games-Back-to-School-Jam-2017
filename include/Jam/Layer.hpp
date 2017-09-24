@@ -49,11 +49,16 @@ namespace jam
 
     const sf::View* getSharedView() const;
 
+    void setActive(const bool active);
+
+    bool isActive() const;
+
   private:
 
     std::unordered_multimap<std::string, std::unique_ptr<Entity>> m_entities;
     const sf::View* m_sharedView;
     sf::View m_view;
+    bool m_active;
   };
 }
 

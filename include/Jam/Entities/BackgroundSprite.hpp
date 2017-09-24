@@ -9,6 +9,8 @@ namespace jam
   {
   public:
 
+    BackgroundSprite();
+
     void draw(sf::RenderTarget& target) override;
   };
 }
