@@ -9,6 +9,7 @@ uniform struct Drunkness
 	vec2 standingWaveHeight;
 	vec2 standingFreq;
 	vec2 positionalCompressionRates;
+	float horizontalKnock;
 	
 } drunkness;
 
@@ -16,8 +17,8 @@ void main()
 {
 
 	vec2 standingPartial = vec2(
-		drunkness.standingWaveHeight.x * sin(tick * drunkness.standingFreq.x) + 0.04*sin(12*gl_TexCoord[0].y),
-		drunkness.standingWaveHeight.y * sin(tick * drunkness.standingFreq.y) + 0.04*sin(12*gl_TexCoord[0].x)
+		drunkness.standingWaveHeight.x * sin(tick * drunkness.standingFreq.x) + drunkness.horizontalKnock * sin(12*gl_TexCoord[0].y),
+		drunkness.standingWaveHeight.y * sin(tick * drunkness.standingFreq.y) + drunkness.horizontalKnock * sin(12*gl_TexCoord[0].x)
 	);
 
 	vec2 positionalCompression = vec2(
