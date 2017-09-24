@@ -7,7 +7,7 @@ uniform float modifiableValue;
 void main()
 {
 	float intensity = modifiableValue / 15;
-	float hueScale = min(intensity * (0.24 + 0.12 * cos(tick/10+3.14159)), 1);
+	float hueScale = min(intensity * (0.22 + 0.11 * cos(tick/10+3.14159)), 1);
 	float travelSpeed = 0.2;
 	float stroboSpeed = 0.2;
 	float stroboVaryTime = 1;
